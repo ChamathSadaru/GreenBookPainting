@@ -20,7 +20,7 @@ jobs:
       - name: Git User සකස් කිරීම
         # commit කරන කෙනා කවුද කියලා Git වලට කියන්න ඕනේ
         run: |
-          git config --global user.name "Chamath Sandaru" # <--- ඔබේ GitHub නම මෙතන දාන්න
+          git config --global user.name "ChamathSadaru" # <--- ඔබේ GitHub නම මෙතන දාන්න
           git config --global user.email "chamathsandaru.se@gmail.com" # <--- ඔබේ GitHub email එක මෙතන දාන්න
 
       - name: Commit කිරීමට file එකක් update කිරීම
