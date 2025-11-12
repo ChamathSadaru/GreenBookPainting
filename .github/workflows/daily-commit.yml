@@ -12,6 +12,8 @@ on:
 jobs:
   auto-commit-job:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Repository එක checkout කිරීම
         # මේකෙන් ඔයාගේ code එක workflow එකට අරගන්නවා
