@@ -1,12 +1,11 @@
-name: Daily Auto Commit
+name: Daily Auto Commit (Dark Green)
 
 on:
   schedule:
-    # හැමදාම UTC වෙලාවෙන් 00:00 ට ක්‍රියාත්මක වේ
-    # (මෙය ලංකාවේ වෙලාවෙන් උදේ 5:30 ට පමණ වේ)
+
     - cron: '0 0 * * *'
   
-  # Actions tab එකෙන් අතින් (manually) run කිරීමටත් ඉඩ දීම
+
   workflow_dispatch:
 
 jobs:
@@ -16,24 +15,32 @@ jobs:
       contents: write
     steps:
       - name: Repository එක checkout කිරීම
-        # මේකෙන් ඔයාගේ code එක workflow එකට අරගන්නවා
         uses: actions/checkout@v4
 
       - name: Git User සකස් කිරීම
-        # commit කරන කෙනා කවුද කියලා Git වලට කියන්න ඕනේ
+  
         run: |
-          git config --global user.name "ChamathSadaru" # <--- ඔබේ GitHub නම මෙතන දාන්න
-          git config --global user.email "chamathsandaru.se@gmail.com" # <--- ඔබේ GitHub email එක මෙතන දාන්න
+          git config --global user.name "Chamath Sandaru"
+          git config --global user.email "chamathsandaru.se@gmail.com"
 
-      - name: Commit කිරීමට file එකක් update කිරීම
+      - name: Commits 20ක් දැමීම (Loop)
         run: |
-          # Git commit එකක් දාන්න නම් මොකක්හරි file එකක වෙනසක් වෙන්නම ඕනේ.
-          # මේ command එකෙන් 'last-update.txt' file එකට දවසේ date එක දානවා.
-          echo "Last automated update: $(date)" > last-update.txt
+          # 1 සිට 20 දක්වා Loop එකක් ක්‍රියාත්මක වේ
+          for i in {1..20}
+          do
+            # File එකට අලුත් වේලාවක් ලියනවා
+            echo "Auto commit number $i: $(date)" > last-update.txt
+            
+            # වෙනස add කරනවා
+            git add last-update.txt
+            
+            # Commit කරනවා (Message එකත් එක්ක)
+            git commit -m "Auto commit $i/20 - $(date)"
+            
+            # තත්පර 1ක් ඉන්නවා (Time stamp ඝට්ටනය නොවීමට)
+            sleep 1
+          done
 
-      - name: වෙනස්කම් Commit කර Push කිරීම
-        run: |
-          git add last-update.txt
-          # file එකේ ඇත්තටම වෙනසක් වෙලා තියෙනවද කියලා බලලා commit කරනවා
-          git diff-index --quiet HEAD || git commit -m "CHORE: Daily automatic update"
-          git push
+      - name: වෙනස්කම් Push කිරීම
+     
+        run: git push
